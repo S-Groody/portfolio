@@ -9,49 +9,5 @@ Western Governer's University - Bachelor of Science, Computer Science (In Progre
 ## Projects
 
 #### Video Game Sales
-In this project I have used exploratory analysis to display general information about the video game industry as a means for a new publisher to break into the space.
 
-First, I used MySQL to clean the data. This involved removing duplicates and NULLs, as well as reformatting the names of platforms to allow for structured visualizations.
-
--- Creating a staging table to maintain integrity of original data
-CREATE TABLE games_staging
-LIKE games_data;
-
-INSERT games_staging
-SELECT *
-FROM games_data;
-
--- Deleting Where Year was N/A
-DELETE
-FROM games_staging
-WHERE Year_of_Release = '0';
-
--- Searching for Duplicates
-SELECT *,
-ROW_NUMBER() OVER(PARTITION BY `Name`, Platform, Year_of_Release, Genre, Publisher, NA_Sales, EU_Sales, JP_Sales, Other_Sales, Global_Sales, Critic_Score, Critic_Count, User_Score, User_Count, Developer, Rating) AS row_num
-FROM games_staging;
-
-WITH duplicate_finder AS
-(
-SELECT *,
-ROW_NUMBER() OVER(PARTITION BY `Name`, Platform, Year_of_Release, Genre, Publisher, NA_Sales, EU_Sales, JP_Sales, Other_Sales, Global_Sales, Critic_Score, Critic_Count, User_Score, User_Count, Developer, Rating) AS row_num
-FROM games_staging
-)
-SELECT *
-FROM duplicate_finder
-WHERE row_num > 1;
-
--- Fixing platform formatting
-UPDATE games_staging
-SET Platform = 'PSVita'
-WHERE Platform = 'PSV';
-
-UPDATE games_staging
-SET Platform = 'Atari 2600'
-WHERE Platform = '2600';
-
-UPDATE games_staging
-SET Platform = 'PS1'
-WHERE Platform = 'PS';
-
-Second, I constructed my visuals in Tableau, prioritizing displaying the top performing platforms and genres. 
+#### Global Weather
