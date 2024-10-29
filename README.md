@@ -5,6 +5,6 @@
 SQL, Excel, Tableau, R, Python
 
 ## Education
-Western Governer's University - Bachelor's in Computer Science (In Progress)
+Western Governer's University - Bachelor of Science, Computer Science (In Progress)
 
 ## Projects
