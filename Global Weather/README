@@ -1,0 +1,105 @@
+This project was the first time I had been in MySQL doing my own thing. I decided to use a large dataset to practice Cleaning and Formatting.
+
+# Confirming date format across all rows
+SELECT COUNT(*)
+FROM weather_staging
+WHERE dt LIKE "____-__-__";
+
+# Deleting blank values
+DELETE
+FROM weather_staging
+WHERE dt = '' OR AverageTemperature = '' OR AverageTemperatureUncertainty = '' OR City = '' OR Country = '' OR Latitude = '' OR Longitude = '';
+
+# Deleting NULL values
+SELECT *
+FROM weather_staging
+WHERE dt IS NULL OR AverageTemperature IS NULL OR AverageTemperatureUncertainty IS NULL OR City IS NULL OR Country IS NULL OR Latitude IS NULL OR Longitude IS NULL;
+
+# Finding and deleting duplicates
+-- Finding Duplicates
+SELECT *,
+ROW_NUMBER() OVER(PARTITION BY dt, AverageTemperature, AverageTemperatureUncertainty, City, Country, Latitude, Longitude) AS row_num
+FROM weather_staging;
+
+WITH duplicate_finder AS
+(
+SELECT *,
+ROW_NUMBER() OVER(PARTITION BY dt, AverageTemperature, AverageTemperatureUncertainty, City, Country, Latitude, Longitude) AS row_num
+FROM weather_staging
+)
+SELECT *
+FROM duplicate_finder
+WHERE row_num > 1;
+
+-- Creating a new table to delete duplicates
+CREATE TABLE `weather_staging2` (
+  `dt` text,
+  `AverageTemperature` text,
+  `AverageTemperatureUncertainty` text,
+  `City` text,
+  `Country` text,
+  `Latitude` text,
+  `Longitude` text,
+  `row_num` INT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO weather_staging2
+SELECT *,
+ROW_NUMBER() OVER(PARTITION BY dt, AverageTemperature, AverageTemperatureUncertainty, City, Country, Latitude, Longitude) AS row_num
+FROM weather_staging;
+
+DELETE
+FROM weather_staging2
+WHERE row_num > 1;
+
+# Adding 'Hemisphere' column with Case Statement, converting temperatures from Celcius to Fahrenheit, and Reformatting 'year' column
+CREATE TEMPORARY TABLE weather_staging_avg_by_station
+SELECT SUBSTRING(dt,1,4) AS year_, 
+AVG(AverageTemperature) AS avg_temp_celcius, 
+AVG((AverageTemperature * 1.8) + 32) AS avg_temp_fahrenheit,
+Country,
+Latitude,
+Longitude,
+CASE
+	WHEN Latitude LIKE '%N' AND Longitude LIKE '%E' THEN 'Northeast' 
+    WHEN Latitude LIKE '%N' AND Longitude LIKE '%W' THEN 'Northwest' 
+    WHEN Latitude LIKE '%S' AND Longitude LIKE '%E' THEN 'Southeast' 
+    WHEN Latitude LIKE '%S' AND Longitude LIKE '%W' THEN 'Southwest' 
+END AS Hemisphere
+FROM weather_staging2
+GROUP BY year_, Country, Latitude, Longitude;
+
+SELECT *
+FROM weather_staging_avg_by_station
+LIMIT 10;
+
+SELECT year_,
+ROUND(AVG(avg_temp_celcius),3) AS avg_temp_c,
+ROUND(AVG(avg_temp_fahrenheit),3) AS avg_temp_f,
+Country,
+Hemisphere
+FROM weather_staging_avg_by_station
+GROUP BY year_, Country, Hemisphere
+ORDER BY year_ ASC;
+
+CREATE TEMPORARY TABLE weather_staging_avg_by_year
+SELECT year_,
+ROUND(AVG(avg_temp_celcius),3) AS avg_temp_c,
+ROUND(AVG(avg_temp_fahrenheit),3) AS avg_temp_f,
+Country,
+Hemisphere
+FROM weather_staging_avg_by_station
+GROUP BY year_, Country, Hemisphere
+ORDER BY year_ ASC;
+
+CREATE TABLE weather_staging_final LIKE weather_staging_avg_by_year;
+
+INSERT INTO weather_staging_final
+SELECT year_,
+ROUND(AVG(avg_temp_celcius),3) AS avg_temp_c,
+ROUND(AVG(avg_temp_fahrenheit),3) AS avg_temp_f,
+Country,
+Hemisphere
+FROM weather_staging_avg_by_station
+GROUP BY year_, Country, Hemisphere
+ORDER BY year_ ASC;
