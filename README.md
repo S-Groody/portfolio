@@ -1,7 +1,6 @@
-# Stephen Groody
-### Data Analyst
+# Data Analyst
 
-#### Technical Skills
+### Technical Skills
 SQL, Excel, Tableau, R, Python
 
 ## Education
