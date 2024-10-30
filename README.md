@@ -1,10 +1,12 @@
 # Data Analyst
 
 ### Technical Skills
-SQL, Excel, Tableau, R, Python
+SQL, Excel, Tableau, R, Python, Power BI
 
 ## Education
+Google Data Analytics Professional Certificate (Completed)
 Western Governer's University - Bachelor of Science, Computer Science (In Progress)
+
 
 ## Projects
 
