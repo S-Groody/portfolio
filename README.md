@@ -1,4 +1,5 @@
 # Data Analyst
+##### [Resume](https://github.com/S-Groody/portfolio/tree/main/Resume)
 
 ### Technical Skills
 SQL, Excel, Tableau, R, Python, Power BI
