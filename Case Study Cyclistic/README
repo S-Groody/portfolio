@@ -1,0 +1,25 @@
+Cyclistic Case Study
+
+This was my final project for my Google Data Analytics Professional Certificate.
+
+
+The dataset being used is from a real company called Divvy that provides this data to Google under a scholastic license. The project is setup as a fictional bike-sharing company called Cyclistic.
+Cyclistic has free and premium users, with different options of bicycles including bikes for those with disabilities.
+I was tasked with answering the question: "How do annual members and casual riders use Cyclistic bikes differently?"
+
+I started by gathering the data first. The data was provided in .csv format by the month and year. Since I was doing this project in October, I grabbed the last 12 months starting from October of 2023 to September of 2024.
+
+Once I had my data I began cleaning it and formatting it in excel. This included removing duplicates, removing null values, as well as using the pickup and drop-off times to add a "ride_length" column. I also knew that I would eventually want to make a nice looking map in Tableau so formatting the longitude and latitude rows so Tableau could easily read it was a must.
+
+I then began doing some exploratory analysis on the data focusing on the busiest months of each season to get an idea of the behaviors year round. I did this partly in Excel using pivot tables and partly in MySQL as well. The Scripts for MySQL are available for review in this portfolio.
+
+I discovered that casual members average ride length is more than double that of members, with casual riders taking their longest rides on the weekend.
+
+In regards to total rides done by casual riders and member riders, member rides account for more than half of all rides by the company.
+
+This points to casual members using Cyclistic bikes as more of a leisure activity, taking long though infrequent trips. Members however, use the bikes for shorter, more frequent trips most likely to and from work. This holds true as I also discovered that the busiest days for casual riders are the weekends and the inverse is true for members.
+
+There are outliers of course. Many members use Cyclistic bikes in both ways, as a leisure activity and as transportation. However, the data overwhelmingly suggests that the majority of riders fall under the following characterization:
+
+Casual Riders: Longer, infrequent trips for leisure.
+Member Riders: Shorter, more frequent trips for transportation.
