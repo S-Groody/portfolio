@@ -11,12 +11,16 @@ Western Governer's University - Bachelor of Science, Computer Science (In Progre
 
 ## Projects
 
-#### Video Game Sales
+#### [Case Study: Cyclistic](https://github.com/S-Groody/portfolio/tree/main/Case%20Study%20Cyclistic)
+Full Case Study Analyzing Customer Behaviors
+Technologies: Excel, SQL, Tableau
+
+#### [Video Game Sales](https://github.com/S-Groody/portfolio/tree/main/Video%20Game%20Sales)
 Exploratory Analysis of Video Game Sales from 1980-2015
+Technologies: SQL, Tableau
 
-[Documentation](https://github.com/S-Groody/portfolio/tree/main/Video%20Game%20Sales)
 
-#### Global Weather
+#### [Global Weather](https://github.com/S-Groody/portfolio/tree/main/Global%20Weather)
 Data Cleaning and Formatting Project analyzing weather data from 1743
+Technologies: SQL
 
-[Documentation](https://github.com/S-Groody/portfolio/tree/main/Global%20Weather)
